@@ -46,7 +46,7 @@ class ModalView(private val activity: Activity) {
 
     /*ModalView视图宽、高*/
     var width = MATCH_PARENT
-    var height = MATCH_PARENT
+    var height = WRAP_CONTENT
 
     fun with(init: ModalView.() -> Unit): ModalView {
         this.init()
@@ -103,5 +103,6 @@ class ModalView(private val activity: Activity) {
         val POSITION_BOTTOM = RelativeLayout.ALIGN_PARENT_BOTTOM
 
         val MATCH_PARENT = RelativeLayout.LayoutParams.MATCH_PARENT
+        val WRAP_CONTENT = RelativeLayout.LayoutParams.WRAP_CONTENT
     }
 }

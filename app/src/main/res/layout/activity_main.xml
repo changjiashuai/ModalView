@@ -3,10 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_margin="16dp"
+    android:orientation="vertical"
     tools:context="com.changjiashuai.demo.MainActivity">
 
+    <Button
+        android:id="@+id/btnShowBasic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Basic"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnShowTop"
@@ -34,5 +40,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="showChangeBg"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnShowCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="showCardView"
         android:textAllCaps="false" />
 </LinearLayout>

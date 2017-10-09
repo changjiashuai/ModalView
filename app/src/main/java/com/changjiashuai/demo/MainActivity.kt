@@ -3,6 +3,7 @@ package com.changjiashuai.demo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import com.changjiashuai.modalview.ModalView
 import com.changjiashuai.modalview.exts.getViewFromResId
 import kotlinx.android.synthetic.main.activity_main.*
@@ -13,7 +14,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val view = getViewFromResId(R.layout.dialog_test)
-        val button5 = view.findViewById<Button>(R.id.button5)
+        val cardView = getViewFromResId(R.layout.dialog_cardview)
+        val ivClose = cardView.findViewById<ImageView>(R.id.iv_close)
+
+        val modalViewBasic = ModalView(this).with {
+            contentView = view
+        }
+
         val modalViewTop = ModalView(this).with {
             contentView = view
             height = 700
@@ -39,12 +46,23 @@ class MainActivity : AppCompatActivity() {
             backgroundResource = R.color.colorAccent
         }
 
+        val modalCardView = ModalView(this).with {
+            contentView = cardView
+            position = ModalView.POSITION_CENTER
+        }
+
+        btnShowBasic.setOnClickListener { modalViewBasic.show() }
         btnShowTop.setOnClickListener { modalViewTop.show() }
         btnShowCenter.setOnClickListener { modalViewCenter.show() }
         btnShowBottom.setOnClickListener { modalViewBottom.show() }
         btnShowChangeBg.setOnClickListener { modalViewChangeBg.show() }
+        btnShowCardView.setOnClickListener { modalCardView.show() }
 
-        button5.setOnClickListener {
+        val btnDismiss = view.findViewById<Button>(R.id.btnDismiss)
+        btnDismiss.setOnClickListener {
+            if (modalViewBasic.isShowing) {
+                modalViewBasic.dismiss()
+            }
             if (modalViewTop.isShowing) {
                 modalViewTop.dismiss()
             }
@@ -56,6 +74,12 @@ class MainActivity : AppCompatActivity() {
             }
             if (modalViewChangeBg.isShowing) {
                 modalViewChangeBg.dismiss()
+            }
+        }
+
+        ivClose.setOnClickListener {
+            if (modalCardView.isShowing) {
+                modalCardView.dismiss()
             }
         }
     }
