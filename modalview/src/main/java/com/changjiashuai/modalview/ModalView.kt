@@ -57,8 +57,8 @@ class ModalView(private val activity: Activity) {
                     animOut = AnimationUtils.loadAnimation(activity, R.anim.slide_out_top)
                 }
                 POSITION_CENTER -> {
-                    animIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_top)
-                    animOut = AnimationUtils.loadAnimation(activity, R.anim.slide_out_top)
+                    animIn = AnimationUtils.loadAnimation(activity, R.anim.scale_in)
+                    animOut = AnimationUtils.loadAnimation(activity, R.anim.scale_out)
                 }
                 POSITION_BOTTOM -> {
                     animIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom)
@@ -70,7 +70,7 @@ class ModalView(private val activity: Activity) {
     }
 
     fun dismiss() {
-        animIn?.setAnimationListener(object : Animation.AnimationListener {
+        animOut?.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(p0: Animation?) {
             }
 
@@ -81,9 +81,8 @@ class ModalView(private val activity: Activity) {
 
             override fun onAnimationStart(p0: Animation?) {
             }
-
         })
-        contentView.startAnimation(animIn)
+        contentView.startAnimation(animOut)
     }
 
     fun show() {
@@ -94,7 +93,7 @@ class ModalView(private val activity: Activity) {
         }
         activity.addView2DecorView(contentView, backgroundResource = backgroundResource, lp = lp)
         isShowing = true
-        contentView.startAnimation(animOut)
+        contentView.startAnimation(animIn)
     }
 
     companion object {
