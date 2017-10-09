@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         val modalViewTop = ModalView(this).with {
             contentView = view
-            height = 700
             position = ModalView.POSITION_TOP
         }
 
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             contentView = view
             height = 600
             position = ModalView.POSITION_BOTTOM
-            backgroundResource = R.color.colorAccent
+            backgroundResource = android.R.color.transparent
         }
 
         val modalCardView = ModalView(this).with {
@@ -82,5 +81,7 @@ class MainActivity : AppCompatActivity() {
                 modalCardView.dismiss()
             }
         }
+
+        //1. loading without progress 2. loading with progress
     }
 }

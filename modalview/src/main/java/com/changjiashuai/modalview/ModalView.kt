@@ -28,12 +28,6 @@ class ModalView(private val activity: Activity) {
             field = activity.px2dip(value.toFloat())
         }
 
-    /*弹窗的宽高比*/
-    var ratio = 0.75f
-
-    //TODO ??? may be can remove
-    var isBackgroundTransparent = false
-
     /*当前是否显示*/
     var isShowing = false
 

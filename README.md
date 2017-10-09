@@ -18,8 +18,9 @@ Android ModelView for Enhance Dialog.
 
 # Dependency
 
-```dependencies {
-     compile 'com.changjiashuai.modalview:modalview:1.0.0'
+```
+   dependencies {
+     compile 'com.changjiashuai.modalview:modalview:1.0.1'
    }
 ```
 
