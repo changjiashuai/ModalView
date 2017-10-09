@@ -32,16 +32,17 @@ class MainActivity : AppCompatActivity() {
             position = ModalView.POSITION_BOTTOM
         }
 
-        btnShowTop.setOnClickListener {
-            modalViewTop.show()
+        val modalViewChangeBg = ModalView(this).with {
+            contentView = view
+            height = 600
+            position = ModalView.POSITION_BOTTOM
+            backgroundResource = R.color.colorAccent
         }
 
-        btnShowCenter.setOnClickListener {
-            modalViewCenter.show()
-        }
-        btnShowBottom.setOnClickListener {
-            modalViewBottom.show()
-        }
+        btnShowTop.setOnClickListener { modalViewTop.show() }
+        btnShowCenter.setOnClickListener { modalViewCenter.show() }
+        btnShowBottom.setOnClickListener { modalViewBottom.show() }
+        btnShowChangeBg.setOnClickListener { modalViewChangeBg.show() }
 
         button5.setOnClickListener {
             if (modalViewTop.isShowing) {
@@ -52,6 +53,9 @@ class MainActivity : AppCompatActivity() {
             }
             if (modalViewBottom.isShowing) {
                 modalViewBottom.dismiss()
+            }
+            if (modalViewChangeBg.isShowing) {
+                modalViewChangeBg.dismiss()
             }
         }
     }

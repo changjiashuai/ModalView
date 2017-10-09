@@ -1,14 +1,13 @@
 package com.changjiashuai.modalview
 
 import android.app.Activity
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.RelativeLayout
 import com.changjiashuai.modalview.exts.addView2DecorView
 import com.changjiashuai.modalview.exts.removeViewFromDecorView
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import com.changjiashuai.modalview.exts.px2dip
 
 
 /**
@@ -22,11 +21,12 @@ class ModalView(private val activity: Activity) {
 
     /*弹窗背景颜色*/
     var backgroundResource = R.color.model_mask
-    var backgroundColor: Int = Color.parseColor("#bf000000")
-    var background: Drawable? = null
 
     /*弹窗距离两侧的距离(dp)*/
-    var padding = 44
+    var margin: Int = 44
+        set(value) {
+            field = activity.px2dip(value.toFloat())
+        }
 
     /*弹窗的宽高比*/
     var ratio = 0.75f
@@ -34,13 +34,17 @@ class ModalView(private val activity: Activity) {
     //TODO ??? may be can remove
     var isBackgroundTransparent = false
 
+    /*当前是否显示*/
     var isShowing = false
 
     /*显示位置*/
     var position = POSITION_BOTTOM
+    /*进入动画*/
     var animIn: Animation? = null
+    /*离开动画*/
     var animOut: Animation? = null
 
+    /*ModalView视图宽、高*/
     var width = MATCH_PARENT
     var height = MATCH_PARENT
 
@@ -85,7 +89,10 @@ class ModalView(private val activity: Activity) {
     fun show() {
         val lp = RelativeLayout.LayoutParams(width, height)
         lp.addRule(position, RelativeLayout.TRUE)
-        activity.addView2DecorView(contentView, lp = lp)
+        if (position == POSITION_CENTER) {
+            lp.setMargins(margin, 0, margin, 0)
+        }
+        activity.addView2DecorView(contentView, backgroundResource = backgroundResource, lp = lp)
         isShowing = true
         contentView.startAnimation(animOut)
     }
