@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.changjiashuai.modelview.MainActivity">
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.changjiashuai.demo.MainActivity">
 
-    <TextView
+
+    <Button
+        android:id="@+id/btnShowTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="showTop"
+        android:textAllCaps="false" />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/btnShowCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="showCenter"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnShowBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="showBottom"
+        android:textAllCaps="false" />
+</LinearLayout>

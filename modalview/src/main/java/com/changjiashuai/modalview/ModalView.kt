@@ -1,0 +1,100 @@
+package com.changjiashuai.modalview
+
+import android.app.Activity
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.view.View
+import android.widget.RelativeLayout
+import com.changjiashuai.modalview.exts.addView2DecorView
+import com.changjiashuai.modalview.exts.removeViewFromDecorView
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+
+
+/**
+ * Email: changjiashuai@gmail.com
+ *
+ * Created by CJS on 2017/9/30 10:39.
+ */
+class ModalView(private val activity: Activity) {
+
+    lateinit var contentView: View
+
+    /*弹窗背景颜色*/
+    var backgroundResource = R.color.model_mask
+    var backgroundColor: Int = Color.parseColor("#bf000000")
+    var background: Drawable? = null
+
+    /*弹窗距离两侧的距离(dp)*/
+    var padding = 44
+
+    /*弹窗的宽高比*/
+    var ratio = 0.75f
+
+    //TODO ??? may be can remove
+    var isBackgroundTransparent = false
+
+    var isShowing = false
+
+    /*显示位置*/
+    var position = POSITION_BOTTOM
+    var animIn: Animation? = null
+    var animOut: Animation? = null
+
+    var width = MATCH_PARENT
+    var height = MATCH_PARENT
+
+    fun with(init: ModalView.() -> Unit): ModalView {
+        this.init()
+        if (animIn == null || animOut == null) {
+            when (position) {
+                POSITION_TOP -> {
+                    animIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_top)
+                    animOut = AnimationUtils.loadAnimation(activity, R.anim.slide_out_top)
+                }
+                POSITION_CENTER -> {
+                    animIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_top)
+                    animOut = AnimationUtils.loadAnimation(activity, R.anim.slide_out_top)
+                }
+                POSITION_BOTTOM -> {
+                    animIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom)
+                    animOut = AnimationUtils.loadAnimation(activity, R.anim.slide_out_bottom)
+                }
+            }
+        }
+        return this
+    }
+
+    fun dismiss() {
+        animIn?.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(p0: Animation?) {
+            }
+
+            override fun onAnimationEnd(p0: Animation?) {
+                activity.removeViewFromDecorView(contentView)
+                isShowing = false
+            }
+
+            override fun onAnimationStart(p0: Animation?) {
+            }
+
+        })
+        contentView.startAnimation(animIn)
+    }
+
+    fun show() {
+        val lp = RelativeLayout.LayoutParams(width, height)
+        lp.addRule(position, RelativeLayout.TRUE)
+        activity.addView2DecorView(contentView, lp = lp)
+        isShowing = true
+        contentView.startAnimation(animOut)
+    }
+
+    companion object {
+        val POSITION_TOP = RelativeLayout.ALIGN_PARENT_TOP
+        val POSITION_CENTER = RelativeLayout.CENTER_IN_PARENT
+        val POSITION_BOTTOM = RelativeLayout.ALIGN_PARENT_BOTTOM
+
+        val MATCH_PARENT = RelativeLayout.LayoutParams.MATCH_PARENT
+    }
+}
