@@ -1,9 +1,11 @@
 package com.changjiashuai.modalview.exts
 
 import android.app.Activity
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.content.res.Resources
+import android.graphics.Point
+import android.os.Build
+import android.util.Log
+import android.view.*
 import android.widget.RelativeLayout
 import com.changjiashuai.modalview.R
 
@@ -12,16 +14,35 @@ import com.changjiashuai.modalview.R
  *
  * Created by CJS on 2017/9/30 14:19.
  */
-
 fun Activity.addView2DecorView(view: View, backgroundResource: Int = R.color.model_mask,
-                               lp: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT)) {
+                                      lp: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT)) {
     val decorView: ViewGroup = window.decorView as ViewGroup
     val contentParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
     val relativeLayout = RelativeLayout(this)
     relativeLayout.isClickable = true
     relativeLayout.setBackgroundResource(backgroundResource)
+    lp.bottomMargin = getNavigationBarHeight()
     relativeLayout.addView(view, lp)
     decorView.addView(relativeLayout, contentParams)
+}
+
+fun Activity.isNavigationBarShow(): Boolean {
+    val display = windowManager.defaultDisplay
+    val size = Point()
+    val realSize = Point()
+    display.getSize(size)
+    display.getRealSize(realSize)
+    return realSize.y != size.y
+}
+
+fun Activity.getNavigationBarHeight(): Int {
+    if (!isNavigationBarShow()) {
+        return 0
+    }
+    val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+    //获取NavigationBar的高度
+    val height = resources.getDimensionPixelSize(resourceId)
+    return height
 }
 
 fun Activity.addView2WindowContent(view: View, backgroundResource: Int = R.color.model_mask,
