@@ -1,10 +1,7 @@
 package com.changjiashuai.modalview.exts
 
 import android.app.Activity
-import android.content.res.Resources
 import android.graphics.Point
-import android.os.Build
-import android.util.Log
 import android.view.*
 import android.widget.RelativeLayout
 import com.changjiashuai.modalview.R
@@ -14,8 +11,8 @@ import com.changjiashuai.modalview.R
  *
  * Created by CJS on 2017/9/30 14:19.
  */
-fun Activity.addView2DecorView(view: View, backgroundResource: Int = R.color.model_mask,
-                                      lp: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT)) {
+fun Activity.addView2DecorView(view: View, backgroundResource: Int = R.color.modal_mask,
+                               lp: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT)) {
     val decorView: ViewGroup = window.decorView as ViewGroup
     val contentParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
     val relativeLayout = RelativeLayout(this)
@@ -45,7 +42,7 @@ fun Activity.getNavigationBarHeight(): Int {
     return height
 }
 
-fun Activity.addView2WindowContent(view: View, backgroundResource: Int = R.color.model_mask,
+fun Activity.addView2WindowContent(view: View, backgroundResource: Int = R.color.modal_mask,
                                    lp: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT)) {
     val windowContent = window.findViewById<ViewGroup>(Window.ID_ANDROID_CONTENT)
     val contentParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)

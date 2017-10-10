@@ -48,4 +48,18 @@
         android:layout_height="wrap_content"
         android:text="showCardView"
         android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnShowLoading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="showLoading"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnShowUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="showUpdate"
+        android:textAllCaps="false" />
 </LinearLayout>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ModelView</string>
+    <string name="updatecontent">1.修复BUG\n2.优化界面\n3.哈哈哈哈\n4.欢迎大家Star和提issue\n5.github:<a href='http://github.com/changjiashuai'>http://github.com/changjiashuai</a></string>
 </resources>

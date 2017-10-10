@@ -20,7 +20,7 @@ class ModalView(private val activity: Activity) {
     lateinit var contentView: View
 
     /*弹窗背景颜色*/
-    var backgroundResource = R.color.model_mask
+    var backgroundResource = R.color.modal_mask
 
     /*弹窗距离两侧的距离(dp)*/
     var margin: Int = 44
@@ -82,7 +82,7 @@ class ModalView(private val activity: Activity) {
     fun show() {
         val lp = RelativeLayout.LayoutParams(width, height)
         lp.addRule(position, RelativeLayout.TRUE)
-        if (position == POSITION_CENTER) {
+        if (position == POSITION_CENTER && width == MATCH_PARENT) {
             lp.setMargins(margin, 0, margin, 0)
         }
         activity.addView2DecorView(contentView, backgroundResource = backgroundResource, lp = lp)
