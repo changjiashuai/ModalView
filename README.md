@@ -30,6 +30,22 @@ Android ModalView for Enhance Dialog.
 
 # Attribute
 
+```
+    /*显示View*/
+    contentView: View
+    /*弹窗背景颜色*/
+    var backgroundResource = R.color.modal_mask
+    /*弹窗距离两侧的距离(dp)*/
+    var margin: Int = 44
+    /*当前是否显示*/
+    var isShowing = false
+    /*显示位置*/
+    var position = POSITION_BOTTOM
+    /*ModalView视图宽、高*/
+    var width = MATCH_PARENT
+    var height = WRAP_CONTENT
+```
+
 # Dependency
 
 ```
