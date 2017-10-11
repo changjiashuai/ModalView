@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".UpdateActivity" />
-        <activity android:name=".LoadingActivity"></activity>
+        <activity android:name=".LoadingActivity" />
     </application>
 
 </manifest>

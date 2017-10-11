@@ -1,5 +1,6 @@
 package com.changjiashuai.demo
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -62,8 +63,8 @@ class MainActivity : AppCompatActivity() {
             position = ModalView.POSITION_CENTER
         }
 
-        btnShowBasic.setOnClickListener { modalViewBasic.show() }
-        btnShowTop.setOnClickListener { modalViewTop.show() }
+        btnShowBasic.setOnClickListener { modalViewBasic.showWithAnimator() }
+        btnShowTop.setOnClickListener { modalViewTop.showWithAnimation() }
         btnShowCenter.setOnClickListener { modalViewCenter.show() }
         btnShowBottom.setOnClickListener { modalViewBottom.show() }
         btnShowChangeBg.setOnClickListener { modalViewChangeBg.show() }
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         val btnDismiss = view.findViewById<Button>(R.id.btnDismiss)
         btnDismiss.setOnClickListener {
             if (modalViewBasic.isShowing) {
-                modalViewBasic.dismiss()
+                modalViewBasic.dismissWithAnimator()
             }
             if (modalViewTop.isShowing) {
                 modalViewTop.dismiss()

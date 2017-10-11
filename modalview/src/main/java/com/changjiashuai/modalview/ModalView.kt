@@ -1,13 +1,14 @@
 package com.changjiashuai.modalview
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.view.View
 import android.widget.RelativeLayout
-import com.changjiashuai.modalview.exts.addView2DecorView
-import com.changjiashuai.modalview.exts.removeViewFromDecorView
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import com.changjiashuai.modalview.exts.px2dip
+import com.changjiashuai.modalview.exts.*
 
 
 /**
@@ -33,10 +34,6 @@ class ModalView(private val activity: Activity) {
 
     /*显示位置*/
     var position = POSITION_BOTTOM
-    /*进入动画*/
-    var animIn: Animation? = null
-    /*离开动画*/
-    var animOut: Animation? = null
 
     /*ModalView视图宽、高*/
     var width = MATCH_PARENT
@@ -44,27 +41,65 @@ class ModalView(private val activity: Activity) {
 
     fun with(init: ModalView.() -> Unit): ModalView {
         this.init()
-        if (animIn == null || animOut == null) {
-            when (position) {
-                POSITION_TOP -> {
-                    animIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_top)
-                    animOut = AnimationUtils.loadAnimation(activity, R.anim.slide_out_top)
-                }
-                POSITION_CENTER -> {
-                    animIn = AnimationUtils.loadAnimation(activity, R.anim.scale_in)
-                    animOut = AnimationUtils.loadAnimation(activity, R.anim.scale_out)
-                }
-                POSITION_BOTTOM -> {
-                    animIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom)
-                    animOut = AnimationUtils.loadAnimation(activity, R.anim.slide_out_bottom)
-                }
-            }
-        }
         return this
     }
 
-    fun dismiss() {
-        animOut?.setAnimationListener(object : Animation.AnimationListener {
+    /**
+     * 显示
+     *
+     * @param anim: default true
+     */
+    fun show(anim: Boolean = true) {
+        if (anim) {
+            showWithAnimation()
+        } else {
+            val lp = RelativeLayout.LayoutParams(width, height)
+            lp.addRule(position, RelativeLayout.TRUE)
+            if (position == POSITION_CENTER && width == MATCH_PARENT) {
+                lp.setMargins(margin, 0, margin, 0)
+            }
+            activity.addView2DecorView(contentView, backgroundResource = backgroundResource, lp = lp)
+            isShowing = true
+        }
+    }
+
+    /**
+     * 消失
+     *
+     * @param anim: default true
+     */
+    fun dismiss(anim: Boolean = true) {
+        if (anim) {
+            dismissWithAnimation()
+        } else {
+            activity.removeViewFromDecorView(contentView)
+            isShowing = false
+        }
+    }
+
+    /**
+     * 显示
+     *
+     * @param anim:
+     */
+    fun showWithAnimation(anim: Animation = initAnimIn()) {
+        val lp = RelativeLayout.LayoutParams(width, height)
+        lp.addRule(position, RelativeLayout.TRUE)
+        if (position == POSITION_CENTER && width == MATCH_PARENT) {
+            lp.setMargins(margin, 0, margin, 0)
+        }
+        activity.addView2DecorView(contentView, backgroundResource = backgroundResource, lp = lp)
+        isShowing = true
+        contentView.startAnimation(anim)
+    }
+
+    /**
+     * 消失
+     *
+     * @param anim:
+     */
+    fun dismissWithAnimation(anim: Animation = initAnimOut()) {
+        anim.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(p0: Animation?) {
             }
 
@@ -76,10 +111,29 @@ class ModalView(private val activity: Activity) {
             override fun onAnimationStart(p0: Animation?) {
             }
         })
-        contentView.startAnimation(animOut)
+        contentView.startAnimation(anim)
     }
 
-    fun show() {
+    private fun initAnimIn(): Animation = when (position) {
+        POSITION_TOP -> AnimationUtils.loadAnimation(activity, R.anim.slide_in_top)
+        POSITION_CENTER -> AnimationUtils.loadAnimation(activity, R.anim.scale_in)
+        POSITION_BOTTOM -> AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom)
+        else -> AnimationUtils.loadAnimation(activity, android.R.anim.fade_in)
+    }
+
+    private fun initAnimOut(): Animation = when (position) {
+        POSITION_TOP -> AnimationUtils.loadAnimation(activity, R.anim.slide_out_top)
+        POSITION_CENTER -> AnimationUtils.loadAnimation(activity, R.anim.scale_out)
+        POSITION_BOTTOM -> AnimationUtils.loadAnimation(activity, R.anim.slide_out_bottom)
+        else -> AnimationUtils.loadAnimation(activity, android.R.anim.fade_out)
+    }
+
+    /**
+     *  显示
+     *
+     *  @param animator: 显示时的动画，注意传入的数值
+     */
+    fun showWithAnimator(animator: ObjectAnimator = ObjectAnimator()) {
         val lp = RelativeLayout.LayoutParams(width, height)
         lp.addRule(position, RelativeLayout.TRUE)
         if (position == POSITION_CENTER && width == MATCH_PARENT) {
@@ -87,7 +141,56 @@ class ModalView(private val activity: Activity) {
         }
         activity.addView2DecorView(contentView, backgroundResource = backgroundResource, lp = lp)
         isShowing = true
-        contentView.startAnimation(animIn)
+        //fixme maybe have one better method to deal before addView getHeight=0 's issue???
+        contentView.post {
+            //must be in here getHeight
+            if (animator.propertyName == null) {
+                initAnimatorIn(animator)
+            }
+            animator.start()
+        }
+    }
+
+    /**
+     *  消失
+     *
+     *  @param animator: 消失时的动画，注意传入的数值
+     */
+    fun dismissWithAnimator(animator: Animator = initAnimatorOut()) {
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                super.onAnimationEnd(animation)
+                contentView.translationY = 0f
+                activity.removeViewFromDecorView(contentView)
+                isShowing = false
+            }
+        })
+        animator.start()
+    }
+
+    private fun initAnimatorOut(): Animator = when (position) {
+        POSITION_TOP -> ObjectAnimator.ofFloat(contentView, "translationY", 0f, -contentView.height.toFloat())
+        POSITION_CENTER -> ObjectAnimator.ofFloat(contentView, "translationX", 0f, contentView.width.toFloat())
+        POSITION_BOTTOM -> ObjectAnimator.ofFloat(contentView, "translationY", 0f, contentView.height.toFloat())
+        else -> ObjectAnimator.ofFloat(contentView, "translationY", 0f, 0f)
+    }
+
+    private fun initAnimatorIn(objectAnimator: ObjectAnimator) {
+        objectAnimator.target = contentView
+        when (position) {
+            POSITION_TOP -> {
+                objectAnimator.propertyName = "translationY"
+                objectAnimator.setFloatValues(-contentView.height.toFloat(), 0f)
+            }
+            POSITION_CENTER -> {
+                objectAnimator.propertyName = "translationX"
+                objectAnimator.setFloatValues(contentView.width.toFloat(), 0f)
+            }
+            POSITION_BOTTOM -> {
+                objectAnimator.propertyName = "translationY"
+                objectAnimator.setFloatValues(contentView.height.toFloat(), 0f)
+            }
+        }
     }
 
     companion object {
