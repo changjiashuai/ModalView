@@ -3,6 +3,7 @@ Android ModalView for Enhance Dialog.
 
 
 # Demo
+![image](ModalView.gif)
 
 # Usage
 
@@ -19,7 +20,7 @@ Android ModalView for Enhance Dialog.
     showWithAnimator(animator: ObjectAnimator)
     dismissWithAnimator(animator: Animator)
     
-
+    //Basic
     val modalView = ModalView(this).with {
         contentView = view
     }

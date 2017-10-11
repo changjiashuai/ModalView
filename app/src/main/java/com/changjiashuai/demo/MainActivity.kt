@@ -1,12 +1,8 @@
 package com.changjiashuai.demo
 
-import android.animation.ObjectAnimator
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.animation.DynamicAnimation
-import android.support.animation.SpringAnimation
-import android.support.animation.SpringForce
 import android.widget.Button
 import android.widget.ImageView
 import com.changjiashuai.modalview.ModalView
@@ -48,14 +44,6 @@ class MainActivity : AppCompatActivity() {
             height = 600
             position = ModalView.POSITION_BOTTOM
             backgroundResource = android.R.color.transparent
-
-//            val spring = SpringForce(0f)
-//                    .setDampingRatio(SpringForce.DAMPING_RATIO_LOW_BOUNCY)
-//                    .setStiffness(SpringForce.STIFFNESS_LOW)
-//            val anim = SpringAnimation(view, DynamicAnimation.TRANSLATION_Y)
-//                    .setMinValue(0f).setSpring(spring).setStartValue(1f)
-//            anim.start();
-
         }
 
         val modalCardView = ModalView(this).with {
@@ -97,8 +85,5 @@ class MainActivity : AppCompatActivity() {
 
         btnShowLoading.setOnClickListener { startActivity(Intent(this, LoadingActivity::class.java)) }
         btnShowUpdate.setOnClickListener { startActivity(Intent(this, UpdateActivity::class.java)) }
-
-
-        //1. loading without progress 2. loading with progress
     }
 }
