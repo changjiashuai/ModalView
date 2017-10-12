@@ -85,5 +85,6 @@ class MainActivity : AppCompatActivity() {
 
         btnShowLoading.setOnClickListener { startActivity(Intent(this, LoadingActivity::class.java)) }
         btnShowUpdate.setOnClickListener { startActivity(Intent(this, UpdateActivity::class.java)) }
+        btnShowBlur.setOnClickListener { startActivity(Intent(this, BlurViewActivity::class.java)) }
     }
 }

@@ -62,4 +62,11 @@
         android:layout_height="wrap_content"
         android:text="showUpdate"
         android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnShowBlur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="showBlurView"
+        android:textAllCaps="false" />
 </LinearLayout>
